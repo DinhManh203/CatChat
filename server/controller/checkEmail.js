@@ -8,13 +8,13 @@ async function checkEmail(request,response){
 
         if(!checkEmail){
             return response.status(400).json({
-                message : "user not exit",
+                message : "User Not Exit",
                 error : true
             })
         }
 
         return response.status(200).json({
-            message : "email verify",
+            message : "Email verify",
             success : true,
             data : checkEmail
         })

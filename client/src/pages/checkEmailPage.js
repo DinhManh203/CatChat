@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
+import { PiUserCircleThin } from "react-icons/pi";
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const LoginPage = () => {
+const CheckEmailPage = () => {
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
   });
 
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +23,7 @@ const LoginPage = () => {
     e.preventDefault();
     console.log("Form Data:", formData);
 
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/login`;
+    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/email`;
 
     try {
       const response = await axios.post(URL, formData);
@@ -35,9 +33,10 @@ const LoginPage = () => {
       if(response.data.success) {
         setFormData({
           email: '',
-          password: ''
         });
-        navigate('/dashboard');
+        navigate('/password',{
+          state : response?.data?.data
+        });
       }
 
     } catch (error) {
@@ -45,15 +44,17 @@ const LoginPage = () => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen mt-1">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-xl form-container">
+
+        <div>
+        <PiUserCircleThin 
+          size={60}/>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-6">
-          <h3 className="text-2xl text-center">Login</h3>
+          <h3 className="text-2xl text-center">Please login</h3>
 
           {/* Field for Email */}
           <div>
@@ -69,7 +70,7 @@ const LoginPage = () => {
             />
           </div>
 
-          {/* Field for Password */}
+          {/* Field for Password
           <div>
             <label className="block mb-2 text-sm text-gray-700"></label>
             <div className="relative">
@@ -92,7 +93,7 @@ const LoginPage = () => {
                 </button>
               )}
             </div>
-          </div>
+          </div> */}
 
           {/* Submit Button */}
           <button type="submit" className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-gradient-to-r hover:from-[#0695FF] hover:via-[#A334FA] hover:to-[#FF6968] focus:outline-none focus:ring-2 focus:ring-blue-300 submit-button transition-0.3s duration-300 ease-in-out">
@@ -110,4 +111,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default CheckEmailPage;

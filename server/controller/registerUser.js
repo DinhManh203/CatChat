@@ -40,6 +40,6 @@ async function registerUser(request,response){
             error : true
         })
     }
-}
+} 
 
 module.exports = registerUser
